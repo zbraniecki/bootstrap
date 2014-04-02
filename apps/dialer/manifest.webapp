@@ -1,0 +1,7 @@
+{
+  "name": "Dialer App",
+  "launch_path": "/index.html",
+  "startup": {
+    "init_script": "/js/init.js"
+  }
+}

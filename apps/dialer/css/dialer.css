@@ -1,0 +1,28 @@
+body {
+  background: #333;
+}
+
+#textbox {
+  background-color: #ccc;
+  height: 15%;
+  width: 100%;
+  border: 0;
+  font-size: 2em;
+  text-align: right;
+}
+
+#buttons {
+  margin-top: 5%;
+  width: 100%;
+  height: 80%;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+#buttons td {
+  border: 1px solid #ccc;
+  padding: 0;
+  text-align: center;
+  font-size: 4em;
+  color: #ccc;
+}

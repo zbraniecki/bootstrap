@@ -2,8 +2,9 @@ define(function() {
   function App() {
   }
 
-  App.prototype.addEventListener = function app_addEventListener(type, cb) {
-    console.log('cb');
+  App.prototype.emit = function app_emit(type) {
+    var event = new CustomEvent(type);
+    this.window.dispatchEvent(event);
   }
 
   App.extend = function(subClass){

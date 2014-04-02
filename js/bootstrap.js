@@ -4,26 +4,60 @@ define(['io', 'app'], function(io, App) {
 
     function onJSONLoaded(err, manifest) {
       setTitle(manifest.name);
-      initializeStage1(id, manifest);
+      initialize(id, manifest);
     }
 
     io.loadJSON(url, onJSONLoaded);
   }
 
-  function initializeStage1(id, manifest) {
+  function initialize(id, manifest) {
     if (manifest.startup &&
-      manifest.startup.stage1 &&
-      manifest.startup.stage1.init_script) {
+      manifest.startup.init_script) {
 
-        var init_script = './apps/'+id+'/'+manifest.startup.stage1.init_script;
-        require([init_script], function(app_init) {
-          var app = app_init.init(App);
-          app.emit('init');
-        })
-      }
-    if (manifest.launch_path) {
-      document.getElementById('screen').src = './apps/'+id+manifest.launch_path;
+      var init_script = './apps/'+id+'/'+manifest.startup.init_script;
+      require([init_script], function(app_init) {
+        var app = app_init.init(App, manifest, id);
+        initStage1(app);
+        return;
+      })
+    } else {
+      initStage1();
     }
+  }
+
+  function initStage1(app) {
+    if (!app || !app.stage1) {
+      initStage2(app);
+    }
+  }
+
+  function initStage2(app) {
+    if (app.manifest.launch_path) {
+      var screen = document.getElementById('screen');
+      screen.addEventListener('load', onScreenLoaded.bind(null, app));
+      screen.src = './apps/'+app.id+app.manifest.launch_path;
+    }
+  }
+
+  function onScreenLoaded(app, e) {
+    app.window = e.target.contentWindow;
+    if (app.stage2) {
+      app.stage2();
+    }
+    app.window.document.body.style.visibility = 'visible';
+    initStage3(app);
+  }
+
+  function initStage3(app) {
+    if (app.stage3) {
+      console.log('stage 3 init');
+      app.window.addEventListener('stage3complete', onStage3Complete);
+      app.stage3();
+    }
+  }
+
+  function onStage3Complete() {
+    console.log('stage 3 complete');
   }
 
   function setTitle(title) {
