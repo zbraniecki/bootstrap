@@ -51,13 +51,42 @@ define(['io', 'app'], function(io, App) {
   function initStage3(app) {
     if (app.stage3) {
       console.log('stage 3 init');
-      app.window.addEventListener('stage3complete', onStage3Complete);
+      app.window.addEventListener('stage3complete', onStage3Complete.bind(null, app));
       app.stage3();
+    } else {
+      initStage4(app);
     }
   }
 
-  function onStage3Complete() {
+  function onStage3Complete(app) {
     console.log('stage 3 complete');
+    initStage4(app);
+  }
+
+  function initStage4(app) {
+    if (app.stage4) {
+      console.log('stage 4 init');
+      app.window.addEventListener('stage4complete', onStage4Complete.bind(null, app));
+      app.stage4();
+    } else {
+      initStage5(app);
+    }
+  }
+
+  function onStage4Complete(app) {
+    console.log('stage 4 complete');
+  }
+
+  function initStage5(app) {
+    if (app.stage5) {
+      console.log('stage 5 init');
+      app.window.addEventListener('stage5complete', onStage5Complete.bind(null, app));
+      app.stage5();
+    }
+  }
+
+  function onStage5Complete(app) {
+    console.log('stage 5 complete');
   }
 
   function setTitle(title) {
