@@ -7,3 +7,21 @@ body {
   width: 320px;
   height: 480px;
 }
+
+#debug {
+  float: right;
+  width: 40%;
+}
+
+#debug > table {
+  border-collapse: collapse;
+  width: 50%;
+}
+
+#debug > table td {
+  border: 1px solid black;
+  padding: 2%;
+}
+#debug > table tr.active {
+  font-weight: bold;
+}

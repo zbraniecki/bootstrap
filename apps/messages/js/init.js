@@ -1,14 +1,14 @@
 define(function() {
 
   function init(App, manifest, id) {
-    function EmailApp() {
+    function MessagesApp() {
       this.manifest = manifest;
       this.id = id;
     }
 
-    App.extend(EmailApp);
+    App.extend(MessagesApp);
 
-    EmailApp.prototype.stage4 = function emailapp_stage4() {
+    MessagesApp.prototype.stage4 = function messagesapp_stage4() {
       var doc = this.window.document.body;
 
       loadFirst10Messages.call(this);
@@ -47,7 +47,7 @@ define(function() {
       this.emit('stage4complete');
     }
 
-    return new EmailApp();
+    return new MessagesApp();
   }
 
   return {

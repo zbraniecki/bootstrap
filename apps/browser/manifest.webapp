@@ -1,5 +1,5 @@
 {
-  "name": "Email App",
+  "name": "Browser App",
   "launch_path": "/index.html",
   "startup": {
     "init_script": "/js/init.js"
