@@ -1,0 +1,8 @@
+{
+  "name": "Email App",
+  "startup": {
+    "stage1" : {
+      "init_script": "/js/init.js"
+    }
+  }
+}
