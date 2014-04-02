@@ -1,6 +1,29 @@
 define(['io', 'app'], function(io, App) {
   var start = null;
 
+  document.getElementById('app_select').selectedIndex = 0;
+  document.getElementById('app_select').addEventListener('change', onAppSelected);
+  
+  function onAppSelected(e) {
+    cleanSystem();
+    if (e.target.value) {
+      loadApp(e.target.value);
+    }
+  }
+
+  function cleanSystem() {
+    start = null;
+    setTitle('');
+    document.getElementById('screen').src = "about:blank";
+    document.getElementById('stage1time').textContent = "---";
+    document.getElementById('stage2time').textContent = "---";
+    document.getElementById('stage3time').textContent = "---";
+    document.getElementById('stage4time').textContent = "---";
+    document.getElementById('stage5time').textContent = "---";
+    document.getElementById('readytime').textContent = "---";
+    currentStage();
+  }
+
   function loadApp(id) {
     var url = './apps/'+id+'/manifest.webapp';
 
@@ -23,6 +46,7 @@ define(['io', 'app'], function(io, App) {
         return;
       })
     } else {
+      var app = new App(manifest, id);
       initStage1(app);
     }
   }
@@ -31,8 +55,15 @@ define(['io', 'app'], function(io, App) {
     currentStage(1);
     start = window.performance.now();
     if (!app || !app.stage1) {
-      initStage2(app);
+      onStage1Complete(app);
     }
+  }
+
+  function onStage1Complete(app) {
+    var time = parseInt(window.performance.now() - start);
+    document.getElementById('stage1time').textContent = time;
+    currentStage();
+    initStage2(app);
   }
 
   function initStage2(app) {
@@ -53,7 +84,7 @@ define(['io', 'app'], function(io, App) {
       app.stage2();
     }
     app.window.document.body.style.visibility = 'visible';
-    initStage3(app);
+    onStage2Complete(app);
   }
 
   function onStage2Complete(app) {

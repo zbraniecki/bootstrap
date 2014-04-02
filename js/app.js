@@ -1,5 +1,7 @@
 define(function() {
-  function App() {
+  function App(manifest, id) {
+    this.manifest = manifest;
+    this.id = id;
   }
 
   App.prototype.emit = function app_emit(type) {
