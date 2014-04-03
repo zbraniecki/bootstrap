@@ -4,6 +4,7 @@ define(function() {
     function MessagesApp() {
       this.manifest = manifest;
       this.id = id;
+      this.timeouts = [];
     }
 
     App.extend(MessagesApp);
@@ -12,6 +13,13 @@ define(function() {
       var doc = this.window.document.body;
 
       loadFirst10Messages.call(this);
+    }
+
+    MessagesApp.prototype.close = function messagesapp_close() {
+      for (var i=0; i < 10; i++) {
+        clearTimeout(this.timeouts[i]);
+      }
+      this.timeouts = [];
     }
 
     function loadFirst10Messages() {
@@ -35,7 +43,7 @@ define(function() {
       var d = 0;
       for (var i = 0; i < 10; i++) {
         d += getRandomInt(50,500);
-        setTimeout(onMsgLoaded.bind(this, i), d);
+        this.timeouts[i] = setTimeout(onMsgLoaded.bind(this, i), d);
       }
     }
 
